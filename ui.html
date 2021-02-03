@@ -4,111 +4,112 @@
 />
 <style>
   :root {
-		--transparent-grey-1: rgba(0,0,0,0.2); 
-    --transparent-grey-2: rgba(0,0,0,0.4); 
-    --transparent-grey-3: rgba(0,0,0,0.6); 
-		--primary-color: #0071c2; 
-		--secondary-color: #005999;
-		--alt-color: #cd8900;
-		--white-color: #fff;
+    --transparent-grey-1: rgba(0, 0, 0, 0.2);
+    --transparent-grey-2: rgba(0, 0, 0, 0.4);
+    --transparent-grey-3: rgba(0, 0, 0, 0.6);
+    --primary-color: #0071c2;
+    --secondary-color: #005999;
+    --alt-color: #cd8900;
+    --white-color: #fff;
   }
 
-  body { 
-    font-family: "Helvetic Neue", Sans-serif; 
-  } 
+  body {
+    font-family: "Helvetic Neue", Sans-serif;
+  }
 
-  .inner {
+  .col {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
   }
 
   .image-selector {
-    text-align: center; 
+    text-align: center;
     line-height: 120px;
-    margin-top: 10px;
+    margin: 8px 0;
   }
 
   #slide-container {
     max-width: 200px;
     max-height: 200px;
-    overflow: hidden; 
-    position: relative; 
+    overflow: hidden;
+    position: relative;
   }
 
   .slide {
-    width: 100%; 
-    min-height: 100px; 
+    width: 100%;
+    min-height: 100px;
   }
 
   .slides {
-    display: block; 
+    display: block;
   }
 
   .arrow {
-		padding: 5px;
-    font-size: 40px; 
+    padding: 5px;
+    font-size: 40px;
   }
 
   .arrow:hover {
     cursor: pointer;
-    background-color: var(--transparent-grey-2); 
+    background-color: var(--transparent-grey-2);
   }
 
   #next {
-		margin-left: 5px;
-    left: 100%; 
-    transform: translate(-100%, -50%); 
-    border-radius: 0px 4px 4px 0px; 
+    margin-left: 5px;
+    left: 100%;
+    transform: translate(-100%, -50%);
+    border-radius: 0px 4px 4px 0px;
   }
 
   #previous {
-		margin-right: 5px;
-    border-radius: 4px 0px 0px 4px; 
+    margin-right: 5px;
+    border-radius: 4px 0px 0px 4px;
   }
 
   #image-label {
     background-color: var(--transparent-grey-2);
     width: 100%;
-    height: 36px; 
-    position: absolute; 
-    top: 100%;
-    transform: translate(0%, -100%);  
-    text-align: center; 
     height: 36px;
-    line-height: 36px;
+    position: absolute;
+    top: 100%;
+    transform: translate(0%, -100%);
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px 5px 0 0;
   }
 
   #image-text {
     padding: 0px;
-    margin: 0px; 
+    margin: 0px;
     color: var(--white-color);
     position: relative;
     display: inline-block;
   }
 
-  #dotsContainer {
+  #dots-container {
     width: 100%;
-    height: 20px; 
-    text-align: center; 
+    height: 20px;
+    text-align: center;
   }
 
   .dots {
     width: 8px;
     height: 8px;
-    background-color: var(--transparent-grey-1); 
-    border-radius: 100%; 
-    display: inline-block; 
-    margin: 8px 2px; 
+    background-color: var(--transparent-grey-1);
+    border-radius: 100%;
+    display: inline-block;
+    margin: 8px 2px;
   }
 
   .dots:hover {
-    cursor: pointer; 
+    cursor: pointer;
     background-color: var(--transparent-grey-2);
   }
 
   .active-dot {
-    background-color: var(--transparent-grey-3); 
+    background-color: var(--transparent-grey-3);
   }
 
   .slide-temp {
@@ -117,25 +118,25 @@
     height: 100px;
   }
 
-	.btn {
-		background-color: var(--primary-color);
-		color: var(--white-color);
-		box-shadow: 0 6px 10px 0 rgb(0 0 0 / 30%);
-	}
-	.btn:hover {
-		background-color: var(--secondary-color);
-	}
+  .btn {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    box-shadow: 0 6px 10px 0 rgb(0 0 0 / 30%);
+  }
+  .btn:hover {
+    background-color: var(--secondary-color);
+  }
   .create-btn {
     margin: 0 auto;
-		cursor: pointer;
-		font-weight: bold;
+    cursor: pointer;
+    font-weight: bold;
   }
-	.info-btn {
-		display: block;
+  .info-btn {
+    display: block;
     position: absolute;
-		top: 10px;
-		right: 10px;
-		font-size: 16px;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
     padding: 0;
     z-index: 98;
     margin: 0 auto;
@@ -144,80 +145,112 @@
     width: 20px;
     transition: 0.2s;
     text-align: center;
-		cursor: pointer;
-	}
+    cursor: pointer;
+  }
+  footer {
+    text-align: center;
+  }
+  #errors {
+    display: none;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    position: relative;
+    padding: 4px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    font-size: 13px;
+  }
 </style>
 
 <div class="btn info-btn">ℹ</div>
 <div id="image-selector-1" class="image-selector">
-  <div class="inner">
-    <a id="previous" class="arrow">&#10094</a>
+  <div class="col">
+    <a id="previous" class="arrow">❮</a>
   </div>
-  <div class="inner">
-      <div id="slide-container">
-        <div id="pics-thumbs">
-          <div class="slide-temp"></div>
-        </div>        
-        <div id="image-label">
-          <p id="image-text"></p>
-        </div>
+  <div class="col">
+    <div id="slide-container">
+      <div id="pics-thumbs">
+        <div class="slide-temp"></div>
       </div>
-      <div id="dotsContainer"></div>
+      <div id="image-label">
+        <p id="image-text"></p>
+      </div>
+    </div>
+    <div id="dots-container"></div>
   </div>
-  <div class="inner">
-    <a id="next" class="arrow">&#10095</a>
+  <div class="col">
+    <a id="next" class="arrow">❯</a>
   </div>
 </div>
 
 <div id="image-selector-2" class="image-selector">
-  <div class="inner">
-    <a id="previous" class="arrow">&#10094</a>
+  <div class="col">
+    <a id="previous" class="arrow">❮</a>
   </div>
-  <div class="inner">
-      <div id="slide-container">
-        <div id="pics-thumbs">
-          <div class="slide-temp"></div>
-        </div>        
-        <div id="image-label">
-          <p id="image-text"></p>
-        </div>
+  <div class="col">
+    <div id="slide-container">
+      <div id="pics-thumbs">
+        <div class="slide-temp"></div>
       </div>
-      <div id="dotsContainer"></div>
+      <div id="image-label">
+        <p id="image-text"></p>
+      </div>
+    </div>
+    <div id="dots-container"></div>
   </div>
-  <div class="inner">
-    <a id="next" class="arrow">&#10095</a>
+  <div class="col">
+    <a id="next" class="arrow">❯</a>
   </div>
 </div>
 
 <div id="image-selector-3" class="image-selector">
-  <div class="inner">
-    <a id="previous" class="arrow">&#10094</a>
+  <div class="col">
+    <a id="previous" class="arrow">❮</a>
   </div>
-  <div class="inner">
-      <div id="slide-container">
-        <div id="pics-thumbs">
-          <div class="slide-temp"></div>
-        </div>        
-        <div id="image-label">
-          <p id="image-text"></p>
-        </div>
+  <div class="col">
+    <div id="slide-container">
+      <div id="pics-thumbs">
+        <div class="slide-temp"></div>
       </div>
-      <div id="dotsContainer"></div>
+      <div id="image-label">
+        <p id="image-text"></p>
+      </div>
+    </div>
+    <div id="dots-container"></div>
   </div>
-  <div class="inner">
-    <a id="next" class="arrow">&#10095</a>
+  <div class="col">
+    <a id="next" class="arrow">❯</a>
   </div>
 </div>
 
-<b id="errors"></b>
-<p><button class="btn create-btn">CREATE</button></p>
+<footer>
+  <div id="errors"></div>
+  <button class="btn create-btn">CREATE</button>
+</footer>
 
 <script>
+  const state = {
+    selector: document.querySelector("#errors"),
+    update: function (text) {
+      state.selector.innerHTML = text || "";
+      state.selector.style.display = text ? "block" : "none";
+    },
+    error: function (message) {
+      state.update("Unexpected error: " + message);
+    },
+    success: function () {
+      state.update();
+    },
+  };
+  const errors = document.querySelector("#errors");
+
   function ImageSelector(id, imagesArray, imageCategory) {
     var _self = this;
     this.selectorId = id;
     this.imagesArray = imagesArray;
-		this.imageCategory = imageCategory;
+    this.imageCategory = imageCategory;
 
     const imageSelector = document.getElementById(id);
     this._index = 0;
@@ -228,126 +261,145 @@
       nextArrow: imageSelector.querySelector("#next"),
       previousArrow: imageSelector.querySelector("#previous"),
       imageText: imageSelector.querySelector("#image-text"),
-      dotsContainer: imageSelector.querySelector("#dotsContainer")
+      dotsContainer: imageSelector.querySelector("#dots-container"),
       // slides
       // dotArray
-    }
+    };
 
     function fillImages() {
       const elementsArray = [];
-      
+
       for (let i = 0; i < _self.imagesArray.length; i++) {
-        elementsArray.push(`<div class="slides"><img class="slide" src="${_self.imagesArray[i]}"></div>`);
+        elementsArray.push(
+          `<div class="slides"><img class="slide" src="${_self.imagesArray[i]}"></div>`
+        );
       }
 
       _self._dom.pics.innerHTML = elementsArray.join("");
       _self._dom.slides = _self._dom.imageSelector.querySelectorAll(".slides");
     }
-    
+
     function createDots() {
       for (let i = 0; i < _self._dom.slides.length; i++) {
         var dot = document.createElement("span");
-        dot.className = "dots"; 
-        _self._dom.dotsContainer.appendChild(dot); 
-      } 
-      _self._dom.dotArray = _self._dom.imageSelector.querySelectorAll(".dots"); 
+        dot.className = "dots";
+        _self._dom.dotsContainer.appendChild(dot);
+      }
+      _self._dom.dotArray = _self._dom.imageSelector.querySelectorAll(".dots");
     }
 
     function showSlides(x) {
-      if (x > _self._dom.slides.length-1) {
-        _self._index = 0; 
+      if (x > _self._dom.slides.length - 1) {
+        _self._index = 0;
       }
       if (x < 0) {
-        _self._index = _self._dom.slides.length-1; 
+        _self._index = _self._dom.slides.length - 1;
       }
-      for (i=0; i < _self._dom.slides.length; i++) {
-        _self._dom.slides[i].style.display = "none"; 
-        _self._dom.dotArray[i].className = "dots";  
+      for (i = 0; i < _self._dom.slides.length; i++) {
+        _self._dom.slides[i].style.display = "none";
+        _self._dom.dotArray[i].className = "dots";
       }
-      
+
       _self._dom.slides[_self._index].style.display = "block";
-      _self._dom.dotArray[_self._index].className += " active-dot"; 
-      _self._dom.imageText.innerHTML = `${_self.imageCategory} ${_self._index + 1}`; 
+      _self._dom.dotArray[_self._index].className += " active-dot";
+      _self._dom.imageText.innerHTML = `${_self.imageCategory} ${
+        _self._index + 1
+      }`;
     }
 
-    _self._dom.nextArrow.onclick = function() {
-      _self._index += 1; 
-      showSlides(_self._index); 
-    } 
+    _self._dom.nextArrow.onclick = function () {
+      _self._index += 1;
+      showSlides(_self._index);
+    };
 
-    _self._dom.previousArrow.onclick = function() {
-      _self._index -= 1; 
-      showSlides(_self._index); 
-    } 
+    _self._dom.previousArrow.onclick = function () {
+      _self._index -= 1;
+      showSlides(_self._index);
+    };
 
     fillImages();
     createDots();
     showSlides(_self._index);
 
-    _self._dom.dotArray[0].onclick = showSlides(1);     
+    _self._dom.dotArray[0].onclick = showSlides(1);
   }
 
-  ImageSelector.prototype.getSelectedImageUrl = function() {
+  ImageSelector.prototype.getSelectedImageUrl = function () {
     return this.imagesArray[this._index];
-  }
-  
-  const imageSelector1 = new ImageSelector("image-selector-1", [
-    "https://image.flaticon.com/icons/png/128/1674/1674418.png",
-    "https://image.flaticon.com/icons/png/128/1674/1674413.png",
-    "https://image.flaticon.com/icons/png/128/136/136319.png",
-    "https://image.flaticon.com/icons/png/128/1447/1447692.png",
-    "https://image.flaticon.com/icons/png/128/1674/1674397.png",
-    "https://image.flaticon.com/icons/png/128/1674/1674426.png",
-    "https://image.flaticon.com/icons/png/128/307/307552.png",
-    "https://image.flaticon.com/icons/png/128/1674/1674432.png",
-    "https://image.flaticon.com/icons/png/128/1674/1674402.png"
-	], "head");
-	
-  const imageSelector2 = new ImageSelector("image-selector-2", [
-    "https://image.flaticon.com/icons/png/128/892/892458.png",
-    "https://image.flaticon.com/icons/png/128/1867/1867646.png",
-    "https://image.flaticon.com/icons/png/128/3043/3043382.png",
-    "https://image.flaticon.com/icons/png/128/4084/4084522.png",
-    "https://image.flaticon.com/icons/png/128/3126/3126093.png",
-    "https://image.flaticon.com/icons/png/128/3997/3997669.png"
-  ], "body");
+  };
 
-  const imageSelector3 = new ImageSelector("image-selector-3", [
-    "https://image.flaticon.com/icons/png/128/2320/2320663.png",
-    "https://image.flaticon.com/icons/png/128/82/82778.png",
-    "https://image.flaticon.com/icons/png/128/1387/1387315.png"
-  ], "legs");
+  const imageSelector1 = new ImageSelector(
+    "image-selector-1",
+    [
+      "https://image.flaticon.com/icons/png/128/1674/1674418.png",
+      "https://image.flaticon.com/icons/png/128/1674/1674413.png",
+      "https://image.flaticon.com/icons/png/128/136/136319.png",
+      "https://image.flaticon.com/icons/png/128/1447/1447692.png",
+      "https://image.flaticon.com/icons/png/128/1674/1674397.png",
+      "https://image.flaticon.com/icons/png/128/1674/1674426.png",
+      "https://image.flaticon.com/icons/png/128/307/307552.png",
+      "https://image.flaticon.com/icons/png/128/1674/1674432.png",
+      "https://image.flaticon.com/icons/png/128/1674/1674402.png",
+    ],
+    "head"
+  );
+
+  const imageSelector2 = new ImageSelector(
+    "image-selector-2",
+    [
+      "https://image.flaticon.com/icons/png/128/892/892458.png",
+      "https://image.flaticon.com/icons/png/128/1867/1867646.png",
+      "https://image.flaticon.com/icons/png/128/3043/3043382.png",
+      "https://image.flaticon.com/icons/png/128/4084/4084522.png",
+      "https://image.flaticon.com/icons/png/128/3126/3126093.png",
+      "https://image.flaticon.com/icons/png/128/3997/3997669.png",
+    ],
+    "body"
+  );
+
+  const imageSelector3 = new ImageSelector(
+    "image-selector-3",
+    [
+      "https://image.flaticon.com/icons/png/128/2320/2320663.png",
+      "https://image.flaticon.com/icons/png/128/82/82778.png",
+      "https://image.flaticon.com/icons/png/128/1387/1387315.png",
+    ],
+    "legs"
+  );
 
   document.querySelector("button").onclick = () => {
     Promise.all([
       fetch(imageSelector1.getSelectedImageUrl()),
       fetch(imageSelector2.getSelectedImageUrl()),
-      fetch(imageSelector3.getSelectedImageUrl())
-    ]).then(function (responses) {
-      // Get a JSON object from each of the responses
-      return Promise.all(responses.map(function (response) {
-        return response;
-      }));
-    }).then(function (data) {
-      data[0].arrayBuffer().then((buffer1) => {
-        const imageData1 = new Uint8Array(buffer1);
-        data[1].arrayBuffer().then((buffer2) => {
-          const imageData2 = new Uint8Array(buffer2);
-          data[2].arrayBuffer().then((buffer3) => {
-						const imageData3 = new Uint8Array(buffer3);
-						const msg = { data: [ imageData1, imageData2, imageData3 ] };
-            parent.postMessage({ pluginMessage: msg }, "*");
+      fetch(imageSelector3.getSelectedImageUrl()),
+    ])
+      .then(function (responses) {
+        // Get a JSON object from each of the responses
+        return Promise.all(
+          responses.map(function (response) {
+            return response;
+          })
+        );
+      })
+      .then(function (data) {
+        data[0].arrayBuffer().then((buffer1) => {
+          const imageData1 = new Uint8Array(buffer1);
+          data[1].arrayBuffer().then((buffer2) => {
+            const imageData2 = new Uint8Array(buffer2);
+            data[2].arrayBuffer().then((buffer3) => {
+              const imageData3 = new Uint8Array(buffer3);
+              const msg = { data: [imageData1, imageData2, imageData3] };
+              parent.postMessage({ pluginMessage: msg }, "*");
+            });
           });
         });
+      })
+      .catch(function (error) {
+        state.error(error);
       });
-    }).catch(function (error) {
-			// if there's an error, log it
-			alert("Unexpected error: " + error)
-    });
-	};
-	
-	document.querySelector(".info-btn").onclick = () => {
-		alert("Created during Booking.com Hackathon 2021 - by Tomer Ovadia")
-	};
-</script>
+  };
 
+  document.querySelector(".info-btn").onclick = () => {
+    alert("Created during Booking.com Hackathon 2021 - by Tomer Ovadia");
+  };
+</script>
