@@ -2,7 +2,7 @@
 
 ## Demo
 
-![Mesh Creator Demo](https://raw.githubusercontent.com/otomer/figma-plugin-mesh-creator/master/assets/demo.gif)
+![Mesh Creator Demo](https://github.com/otomer/figma-plugin-mesh-creator/blob/master/assets/demo.gif)
 
 <hr/>
 
