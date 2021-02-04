@@ -1,7 +1,7 @@
 {
   "name": "figma-plugin-mesh-creator",
   "version": "1.0.0",
-  "description": "Mesh Creator",
+  "description": "Flair",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json"

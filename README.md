@@ -1,8 +1,8 @@
-# Figma Plugin: Mesh Creator
+# Figma Plugin: Flair
 
 ## Demo
 
-![Mesh Creator Demo](https://github.com/otomer/figma-plugin-mesh-creator/blob/master/assets/demo.gif)
+![Flair Demo](https://github.com/otomer/figma-plugin-mesh-creator/blob/master/assets/demo.gif)
 
 <hr/>
 
