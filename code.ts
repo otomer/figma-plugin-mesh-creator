@@ -1,5 +1,5 @@
 figma.showUI(__html__);
-figma.ui.resize(300, 550);
+figma.ui.resize(300, 565);
 
 figma.ui.onmessage = async (msg) => {
   if (msg.data && msg.data.length > 0) {
