@@ -15,6 +15,12 @@
 
   body {
     font-family: "Helvetic Neue", Sans-serif;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
   }
 
   .col {
@@ -37,7 +43,10 @@
   }
 
   .slide {
-    width: 100%;
+    border: solid 1px rgb(239, 239, 239);
+    border-radius: 5px;
+    padding: 5px;
+    /* width: 100%; */
     min-height: 100px;
   }
 
@@ -67,7 +76,7 @@
     border-radius: 4px 0px 0px 4px;
   }
 
-  #image-label {
+  #placeholder {
     background-color: var(--transparent-grey-2);
     width: 100%;
     height: 36px;
@@ -80,7 +89,7 @@
     border-radius: 5px 5px 0 0;
   }
 
-  #image-text {
+  #placeholder p {
     padding: 0px;
     margin: 0px;
     color: var(--white-color);
@@ -127,6 +136,7 @@
     background-color: var(--secondary-color);
   }
   .create-btn {
+    display: inline-block;
     margin: 0 auto;
     cursor: pointer;
     font-weight: bold;
@@ -174,9 +184,7 @@
       <div id="pics-thumbs">
         <div class="slide-temp"></div>
       </div>
-      <div id="image-label">
-        <p id="image-text"></p>
-      </div>
+      <div id="placeholder"></div>
     </div>
     <div id="dots-container"></div>
   </div>
@@ -194,9 +202,7 @@
       <div id="pics-thumbs">
         <div class="slide-temp"></div>
       </div>
-      <div id="image-label">
-        <p id="image-text"></p>
-      </div>
+      <div id="placeholder"></div>
     </div>
     <div id="dots-container"></div>
   </div>
@@ -214,9 +220,7 @@
       <div id="pics-thumbs">
         <div class="slide-temp"></div>
       </div>
-      <div id="image-label">
-        <p id="image-text"></p>
-      </div>
+      <div id="placeholder"></div>
     </div>
     <div id="dots-container"></div>
   </div>
@@ -227,7 +231,8 @@
 
 <footer>
   <div id="errors"></div>
-  <button class="btn create-btn">CREATE</button>
+  <button class="btn create-btn">Create »</button>
+  <button class="btn create-btn random">Randomize ↔</button>
 </footer>
 
 <script>
@@ -260,7 +265,7 @@
       pics: imageSelector.querySelector("#pics-thumbs"),
       nextArrow: imageSelector.querySelector("#next"),
       previousArrow: imageSelector.querySelector("#previous"),
-      imageText: imageSelector.querySelector("#image-text"),
+      placeholder: imageSelector.querySelector("#placeholder"),
       dotsContainer: imageSelector.querySelector("#dots-container"),
       // slides
       // dotArray
@@ -302,9 +307,9 @@
 
       _self._dom.slides[_self._index].style.display = "block";
       _self._dom.dotArray[_self._index].className += " active-dot";
-      _self._dom.imageText.innerHTML = `${_self.imageCategory} ${
+      _self._dom.placeholder.innerHTML = `<p>${_self.imageCategory} ${
         _self._index + 1
-      }`;
+      }</p>`;
     }
 
     _self._dom.nextArrow.onclick = function () {
@@ -324,8 +329,12 @@
     _self._dom.dotArray[0].onclick = showSlides(1);
   }
 
-  ImageSelector.prototype.getSelectedImageUrl = function () {
-    return this.imagesArray[this._index];
+  ImageSelector.prototype.getSelectedImageUrl = function (randomize) {
+    return this.imagesArray[
+      randomize
+        ? Math.floor(Math.random() * this.imagesArray.length)
+        : this._index
+    ];
   };
 
   const imageSelector1 = new ImageSelector(
@@ -367,37 +376,40 @@
     "legs"
   );
 
-  document.querySelector("button").onclick = () => {
-    Promise.all([
-      fetch(imageSelector1.getSelectedImageUrl()),
-      fetch(imageSelector2.getSelectedImageUrl()),
-      fetch(imageSelector3.getSelectedImageUrl()),
-    ])
-      .then(function (responses) {
-        // Get a JSON object from each of the responses
-        return Promise.all(
-          responses.map(function (response) {
-            return response;
-          })
-        );
-      })
-      .then(function (data) {
-        data[0].arrayBuffer().then((buffer1) => {
-          const imageData1 = new Uint8Array(buffer1);
-          data[1].arrayBuffer().then((buffer2) => {
-            const imageData2 = new Uint8Array(buffer2);
-            data[2].arrayBuffer().then((buffer3) => {
-              const imageData3 = new Uint8Array(buffer3);
-              const msg = { data: [imageData1, imageData2, imageData3] };
-              parent.postMessage({ pluginMessage: msg }, "*");
+  document.querySelectorAll(".create-btn").forEach((item) => {
+    item.addEventListener("click", (event) => {
+      const randomize = event.target.className.indexOf("random") > -1;
+      Promise.all([
+        fetch(imageSelector1.getSelectedImageUrl(randomize)),
+        fetch(imageSelector2.getSelectedImageUrl(randomize)),
+        fetch(imageSelector3.getSelectedImageUrl(randomize)),
+      ])
+        .then(function (responses) {
+          // Get a JSON object from each of the responses
+          return Promise.all(
+            responses.map(function (response) {
+              return response;
+            })
+          );
+        })
+        .then(function (data) {
+          data[0].arrayBuffer().then((buffer1) => {
+            const imageData1 = new Uint8Array(buffer1);
+            data[1].arrayBuffer().then((buffer2) => {
+              const imageData2 = new Uint8Array(buffer2);
+              data[2].arrayBuffer().then((buffer3) => {
+                const imageData3 = new Uint8Array(buffer3);
+                const msg = { data: [imageData1, imageData2, imageData3] };
+                parent.postMessage({ pluginMessage: msg }, "*");
+              });
             });
           });
+        })
+        .catch(function (error) {
+          state.error(error);
         });
-      })
-      .catch(function (error) {
-        state.error(error);
-      });
-  };
+    });
+  });
 
   document.querySelector(".info-btn").onclick = () => {
     alert("Created during Booking.com Hackathon 2021 - by Tomer Ovadia");
